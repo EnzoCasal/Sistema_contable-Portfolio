@@ -4,9 +4,10 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import MyTokenObtainPairSerializer
 from rest_framework import viewsets
-from django.contrib.auth import get_user_model
-from .serializers import UserAdminSerializer
+from .models import User
+from rest_framework.permissions import BasePermission
 from .permissions import IsAdminRole
+from .serializers import UserAdminSerializer
 
 # Endpoint protegido
 class DashboardAPIView(APIView):
@@ -20,9 +21,14 @@ class DashboardAPIView(APIView):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-User = get_user_model()
+class IsAdminRole(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'admin'
 
 class UserAdminViewSet(viewsets.ModelViewSet):
+    """
+    Endpoint para admins: listar, crear, actualizar y eliminar usuarios.
+    """
     queryset = User.objects.all()
     serializer_class = UserAdminSerializer
     permission_classes = [IsAdminRole]

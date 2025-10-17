@@ -20,4 +20,6 @@ urlpatterns = [
     path("api/", include("plan_cuentas.urls")),
 
     path("api/", include("accounts.urls")),
+
+    path("api/", include("asientos.urls")),
 ]

@@ -5,7 +5,7 @@ class User(AbstractUser):
     ROLE_CHOICES = (
         ("admin", "Admin"),
         ("contador", "Contador"),
-        ("auxcontable", "Auxiliar contable"),
         ("auditor", "Auditor"),
     )
-    role = models.CharField(max_length=50, choices=ROLE_CHOICES, default="usuario")
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES, default="auditor")
+    dado_baja = models.BooleanField(default=False)
